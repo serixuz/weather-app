@@ -107,23 +107,75 @@ const fetchSuggestions = (query) => {
   showSuggestions(filteredCities.map((name) => ({ name: { common: name } })));
 };
 
+cityInput.addEventListener('keydown', (e) => {
+  const suggestions = suggestionsDiv.querySelectorAll('.suggestion');
+
+  // Если дропдаун закрыт — не реагируем на стрелки
+  if (suggestions.length === 0 || suggestionsDiv.style.display === 'none')
+    return;
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (activeSuggestionIndex < suggestions.length - 1) {
+      activeSuggestionIndex++;
+      updateActiveSuggestion(suggestions);
+    }
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (activeSuggestionIndex > 0) {
+      activeSuggestionIndex--;
+      updateActiveSuggestion(suggestions);
+    } else {
+      activeSuggestionIndex = -1;
+      cityInput.value = ''; // Очищаем инпут при возврате на пустое поле
+    }
+  } else if (e.key === 'Enter' && activeSuggestionIndex >= 0) {
+    e.preventDefault();
+    cityInput.value = suggestions[activeSuggestionIndex].textContent;
+    suggestionsDiv.style.display = 'none'; // Закрываем дропдаун
+  }
+});
+
+const updateActiveSuggestion = (suggestions) => {
+  suggestions.forEach((el, index) => {
+    el.classList.toggle('active', index === activeSuggestionIndex);
+  });
+
+  if (activeSuggestionIndex >= 0) {
+    cityInput.value = suggestions[activeSuggestionIndex].textContent;
+  }
+};
+
 const showSuggestions = (suggestions) => {
   suggestionsDiv.innerHTML = '';
+  activeSuggestionIndex = -1; // Сброс при новом вводе
   const fragment = document.createDocumentFragment();
-  suggestions.slice(0, 15).forEach(({ name }) => {
+
+  suggestions.slice(0, 15).forEach(({ name }, index) => {
     const suggestionDiv = document.createElement('div');
     suggestionDiv.classList.add('suggestion');
     suggestionDiv.textContent = name.common;
+
     suggestionDiv.addEventListener('click', () => {
       cityInput.value = name.common;
       suggestionsDiv.style.display = 'none';
     });
+
     fragment.appendChild(suggestionDiv);
   });
+
   suggestionsDiv.appendChild(fragment);
   suggestionsDiv.style.display = 'block';
   suggestionsDiv.style.width = `${cityInput.offsetWidth}px`;
 };
+
+// Close drowdown on blur
+cityInput.addEventListener('blur', () => {
+  setTimeout(() => {
+    suggestionsDiv.style.display = 'none';
+    activeSuggestionIndex = -1;
+  }, 200);
+});
 
 fetch('./cities.json')
   .then((response) => response.json())
