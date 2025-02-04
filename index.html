@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="script.js" defer></script>
+
+    <!-- Ionicons -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/ionicons@latest/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://cdn.jsdelivr.net/npm/ionicons@latest/dist/ionicons/ionicons.js"
+    ></script>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <title>Weather</title>
+  </head>
+  <body>
+    <section class="weather_app">
+      <div class="container">
+        <div class="search_container">
+          <div class="search">
+            <input
+              type="text"
+              class="search_bar"
+              placeholder="Search your city"
+            />
+            <div id="suggestions"></div>
+          </div>
+          <div class="search_button">
+            <span class="search_icon material-symbols-outlined"> search </span>
+          </div>
+        </div>
+
+        <div class="weather_container">
+          <div class="weather_icon">
+            <!-- <ion-icon name="cloudy-sharp"></ion-icon> -->
+            <!-- <img src="/img/snowy.svg" alt="cloudy" class="weather_icon" /> -->
+          </div>
+          <div class="weather_temp">-23°C</div>
+          <div class="city">London</div>
+          <div class="weather_description">
+            <div class="humidity">
+              <img src="/img/humidity.svg" alt="humidity" class="info_icon" />
+              <p class="humidity_value">50</p>
+            </div>
+            <div class="wind">
+              <img src="/img/air.svg" alt="wind" class="info_icon" />
+              <p class="wind_value">10</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
