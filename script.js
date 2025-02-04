@@ -90,7 +90,7 @@ const displayWeatherData = (data) => {
     )}km/h`;
     document.querySelector(
       '.weather_icon'
-    ).innerHTML = `<img class="weather_icon" src="/img/${data.weather[0].main.toLowerCase()}.svg" alt="${firstLetter(
+    ).innerHTML = `<img class="weather_icon" src="./img/${data.weather[0].main.toLowerCase()}.svg" alt="${firstLetter(
       data.weather[0].main
     )}">`;
   });
