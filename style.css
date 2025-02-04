@@ -177,3 +177,11 @@ footer {
   bottom: 10px;
   width: 100%;
 }
+
+.suggestion.active {
+  background-color: #ddd;
+}
+
+.suggestion:hover {
+  background-color: #ddd;
+}
