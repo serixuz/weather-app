@@ -51,7 +51,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
+  margin-bottom: 12rem;
 }
 
 .container {
@@ -173,15 +174,10 @@ footer {
   padding: 10px;
   font-size: 14px;
   color: #555;
-  position: absolute;
-  bottom: 10px;
   width: 100%;
 }
 
-.suggestion.active {
-  background-color: #ddd;
-}
-
+.suggestion.active,
 .suggestion:hover {
   background-color: #ddd;
 }
