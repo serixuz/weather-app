@@ -38,11 +38,6 @@ body {
   font-size: 1.6rem;
   font-weight: 400;
 
-  background-image: linear-gradient(
-    to bottom,
-    var(--background-color),
-    var(--night-color)
-  );
   background-size: 100% 100vh;
   background-attachment: fixed;
 }
@@ -51,15 +46,22 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
-  margin-bottom: 12rem;
+  height: 95vh;
+  background-image: linear-gradient(
+    to bottom,
+    var(--background-color),
+    var(--night-color)
+  );
 }
 
 .container {
   padding: 3.2rem;
-  background-color: var(--primary-color);
-  border-radius: 1.2rem;
+  background-color: var(--night-color);
   color: #fff;
+}
+
+.container.border_radius {
+  border-radius: 1.2rem;
 }
 
 /* Search */
@@ -180,4 +182,26 @@ footer {
 .suggestion.active,
 .suggestion:hover {
   background-color: #ddd;
+}
+
+/* Hourly forecast */
+.hourly_forecast_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 1.6rem;
+  width: 120rem;
+  margin: 0 auto;
+}
+
+.hourly_forecast_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3.2rem;
+  padding: 1.6rem;
+  background-color: var(--night-color);
+  border-radius: 1.2rem;
+  margin: 1.6rem 0;
+  border: var(--secondary-color) solid 1px;
 }
