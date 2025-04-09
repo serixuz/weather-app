@@ -213,7 +213,7 @@ cityInput.addEventListener('blur', () =>
 
 const swiper = new Swiper('.slider-wrapper', {
   // Optional parameters
-  loop: true,
+  loop: false,
   slidesPerView: 1,
 
   // If we need pagination
