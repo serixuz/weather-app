@@ -234,8 +234,6 @@ const swiper = new Swiper('.slider-wrapper', {
   },
 });
 
-swiper();
-
 // ===============================
 // 🚀 On Page Load
 // ===============================
