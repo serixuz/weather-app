@@ -208,6 +208,35 @@ cityInput.addEventListener('blur', () =>
 );
 
 // ===============================
+// 🛝 Slider
+// ===============================
+
+const swiper = new Swiper('.slider-wrapper', {
+  // Optional parameters
+  loop: true,
+  slidesPerView: 1,
+
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.custom-next',
+    prevEl: '.custom-prev',
+  },
+
+  // And if we need scrollbar
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+});
+
+swiper();
+
+// ===============================
 // 🚀 On Page Load
 // ===============================
 document.addEventListener('DOMContentLoaded', getUserLocation);
