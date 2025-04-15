@@ -11,6 +11,12 @@ const suggestionsDiv = document.getElementById('suggestions');
 let activeSuggestionIndex = 0;
 let citiesList = [];
 
+// const forecastCard = document.querySelector('.hourly_forecast_card');
+const hourlyCards = document.querySelectorAll('.hourly_forecast_card');
+// const forecastCardTime = document.querySelector('.hourly_forecast_card_time');
+// const forecastCardTemp = document.querySelector('.hourly_forecast_card_temp');
+// const forecastCardIcon = document.querySelector('.hourly_forecast_card_icon');
+
 // ===============================
 // 🔧 Helper Functions
 // ===============================
@@ -52,6 +58,20 @@ const fetchCityByCoords = async (lat, lon) => {
     const data = await response.json();
     if (!response.ok) throw new Error('Error fetching city');
     displayWeatherData(data);
+    fetchDailyForecast(lat, lon, 7);
+  } catch (error) {
+    console.error('City loading error:', error);
+  }
+};
+
+const fetchDailyForecast = async (lat, lon, cnt) => {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=${cnt}&units=metric&appid=${apiKey}`
+    );
+    const data = await response.json();
+    if (!response.ok) throw new Error('Error fetching city');
+    displayDailyForecast(data);
   } catch (error) {
     console.error('City loading error:', error);
   }
@@ -93,6 +113,33 @@ const displayWeatherData = (data) => {
     ).innerHTML = `<img class="weather_icon" src="./img/${data.weather[0].main.toLowerCase()}.svg" alt="${firstLetter(
       data.weather[0].main
     )}">`;
+  });
+};
+
+const displayDailyForecast = (data) => {
+  if (!data) return;
+  console.log(data);
+  console.log(hourlyCards);
+  requestAnimationFrame(() => {
+    hourlyCards.forEach((card) => {
+      const index = Number(card.dataset.hourlyIndex);
+      const weatherData = data.list[index];
+
+      if (!weatherData) return;
+
+      const timeEl = card.querySelector('.hourly_forecast_card_time');
+      const iconEl = card.querySelector('.hourly_forecast_card_icon');
+      const tempEl = card.querySelector('.hourly_forecast_card_temp');
+
+      const time = weatherData.dt_txt.split(' ')[1].slice(0, 5);
+      const temperature = weatherData.main.temp;
+
+      timeEl.textContent = index === 1 ? 'Now' : time;
+      iconEl.innerHTML = `<img src="./img/${weatherData.weather[0].main.toLowerCase()}.svg" alt="${firstLetter(
+        weatherData.weather[0].description
+      )}" />`;
+      tempEl.textContent = `${roundValue(temperature)}°C`;
+    });
   });
 };
 
@@ -191,7 +238,12 @@ const handleSearch = () => {
   const city = cityInput.value.trim();
   if (!city) return;
   cityInput.value = '';
-  fetchWeatherData(city).then(displayWeatherData);
+
+  fetchWeatherData(city).then((data) => {
+    if (!data) return;
+    const { lat, lon } = data.coord;
+    fetchCityByCoords(lat, lon);
+  });
 };
 
 let debounceTimer = null;
