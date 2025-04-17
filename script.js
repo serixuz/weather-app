@@ -120,10 +120,12 @@ const displayDailyForecast = (data) => {
   if (!data) return;
   console.log(data);
   console.log(hourlyCards);
+
   requestAnimationFrame(() => {
     hourlyCards.forEach((card) => {
       const index = Number(card.dataset.hourlyIndex);
       const weatherData = data.list[index];
+      const timezoneOffset = data.city.timezone; // in seconds
 
       if (!weatherData) return;
 
@@ -131,10 +133,20 @@ const displayDailyForecast = (data) => {
       const iconEl = card.querySelector('.hourly_forecast_card_icon');
       const tempEl = card.querySelector('.hourly_forecast_card_temp');
 
-      const time = weatherData.dt_txt.split(' ')[1].slice(0, 5);
+      // Use dt (UNIX UTC timestamp) and apply city timezone offset
+      const utcTimestamp = weatherData.dt; // in seconds
+      const localTimestamp = (utcTimestamp + timezoneOffset) * 1000;
+      const localDate = new Date(localTimestamp);
+
+      const localTime = localDate.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      });
+
       const temperature = weatherData.main.temp;
 
-      timeEl.textContent = index === 1 ? 'Now' : time;
+      timeEl.textContent = localTime;
       iconEl.innerHTML = `<img src="./img/${weatherData.weather[0].main.toLowerCase()}.svg" alt="${firstLetter(
         weatherData.weather[0].description
       )}" />`;
