@@ -42,11 +42,20 @@ body {
   background-attachment: fixed;
 }
 
+/* Reusable */
+.container {
+  margin: 0 auto;
+  background-color: var(--night-color);
+  color: #fff;
+  padding: 3.2rem;
+}
+
+/* Weather App */
 .weather_app {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 95vh;
+  height: 65vh;
   background-image: linear-gradient(
     to bottom,
     var(--background-color),
@@ -54,13 +63,13 @@ body {
   );
 }
 
-.container {
+.app_container {
   padding: 3.2rem;
   background-color: var(--night-color);
   color: #fff;
 }
 
-.container.border_radius {
+.border_radius {
   border-radius: 1.2rem;
 }
 
@@ -190,8 +199,7 @@ footer {
 }
 
 .hourly_forecast_container {
-  width: 120rem;
-  margin: 0 auto;
+  max-width: 120rem;
 }
 
 .hourly_forecast_slider {
@@ -202,7 +210,7 @@ footer {
 .swiper-slide {
   display: grid !important;
   justify-content: center;
-  grid-template-columns: 20rem 20rem 20rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 20rem));
   gap: 1.2rem;
 }
 
@@ -267,6 +275,7 @@ footer {
 }
 
 .hourly_forecast_card {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
