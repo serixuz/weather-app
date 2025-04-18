@@ -218,6 +218,7 @@ footer {
   gap: 1.2rem;
   position: absolute;
   width: 100%;
+  transition: all 0.5s;
 }
 
 .hourly_forecast_card {

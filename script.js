@@ -348,6 +348,14 @@ class Slider {
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
       console.log(e);
     });
+
+    this.paginationContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('pagination__btn')) {
+        const { slide } = e.target.dataset;
+        this.goToSlide(slide);
+        this.activeDots(slide);
+      }
+    });
   }
 
   // Event Handlers
