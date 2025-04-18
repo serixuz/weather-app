@@ -275,28 +275,84 @@ cityInput.addEventListener('blur', () =>
 // 🛝 Slider
 // ===============================
 
-const swiper = new Swiper('.slider-wrapper', {
-  // Optional parameters
-  loop: false,
-  slidesPerView: 1,
+class Slider {
+  constructor() {
+    this.slides = document.querySelectorAll('.slide');
+    this.btnLeft = document.querySelector('.slider__btn--left');
+    this.btnRight = document.querySelector('.slider__btn--right');
+    this.paginationContainer = document.querySelector('.pagination');
 
-  // If we need pagination
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true,
-  },
+    this.curSlide = 0;
+    this.maxSlide = this.slides.length;
 
-  // Navigation arrows
-  navigation: {
-    nextEl: '.custom-next',
-    prevEl: '.custom-prev',
-  },
+    this.init();
+  }
 
-  // And if we need scrollbar
-  scrollbar: {
-    el: '.swiper-scrollbar',
-  },
-});
+  createPagination = function () {
+    this.slides.forEach((_, i) => {
+      this.paginationContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class="pagination__btn" data-slide="${i}"></button>`
+      );
+    });
+  };
+
+  activeDots = function (slide) {
+    document
+      .querySelectorAll('.pagination__btn')
+      .forEach((dot) => dot.classList.remove('pagination__btn--active'));
+    document
+      .querySelector(`.pagination__btn[data-slide="${slide}"]`)
+      .classList.add('pagination__btn--active');
+  };
+
+  goToSlide = function (slide) {
+    this.slides.forEach(
+      (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+    );
+  };
+
+  nextSlide = function () {
+    if (this.curSlide === this.maxSlide - 1) {
+      this.curSlide = 0;
+    } else {
+      this.curSlide++;
+    }
+
+    this.goToSlide(this.curSlide);
+    this.activeDots(this.curSlide);
+  };
+
+  prevSlide = function () {
+    if (this.curSlide === 0) {
+      this.curSlide = this.maxSlide - 1;
+    } else {
+      this.curSlide--;
+    }
+
+    this.goToSlide(this.curSlide);
+    this.activeDots(this.curSlide);
+  };
+
+  init() {
+    this.createPagination();
+    this.activeDots(0);
+    this.goToSlide(0);
+
+    this.btnLeft.addEventListener('click', this.prevSlide.bind(this));
+    this.btnRight.addEventListener('click', this.nextSlide.bind(this));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') this.prevSlide();
+      if (e.key === 'ArrowRight') this.nextSlide();
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      console.log(e);
+    });
+  }
+
+  // Event Handlers
+}
+const slider = new Slider();
 
 // ===============================
 // 🚀 On Page Load
