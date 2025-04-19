@@ -145,12 +145,6 @@ const displayDailyForecast = (data) => {
         timeZone: 'UTC',
       });
 
-      console.log('device time', new Date().toLocaleString());
-      console.log('forecast utc', weatherData.dt);
-      console.log('city offset (s)', timezoneOffset);
-      console.log('local timestamp', new Date(localTimestamp).toLocaleString());
-      console.log('final displayed time', localTime);
-
       const temperature = weatherData.main.temp;
 
       timeEl.textContent = localTime;
@@ -371,3 +365,5 @@ const slider = new Slider();
 // 🚀 On Page Load
 // ===============================
 document.addEventListener('DOMContentLoaded', getUserLocation);
+
+console.log('device time 2', new Date().toLocaleString());
