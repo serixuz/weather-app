@@ -125,16 +125,14 @@ const displayDailyForecast = (data) => {
     hourlyCards.forEach((card) => {
       const index = Number(card.dataset.hourlyIndex);
       const weatherData = data.list[index];
-      const timezoneOffset = data.city.timezone; // in seconds
-
+      const timezoneOffset = data.city.timezone;
       if (!weatherData) return;
 
       const timeEl = card.querySelector('.hourly_forecast_card_time');
       const iconEl = card.querySelector('.hourly_forecast_card_icon');
       const tempEl = card.querySelector('.hourly_forecast_card_temp');
 
-      // Use dt (UNIX UTC timestamp) and apply city timezone offset
-      const utcTimestamp = weatherData.dt; // in seconds
+      const utcTimestamp = weatherData.dt;
       const localTimestamp = (utcTimestamp + timezoneOffset) * 1000;
       const localDate = new Date(localTimestamp);
 
