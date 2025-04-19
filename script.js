@@ -142,6 +142,7 @@ const displayDailyForecast = (data) => {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
+        timeZone: 'UTC',
       });
 
       const temperature = weatherData.main.temp;
@@ -357,8 +358,6 @@ class Slider {
       }
     });
   }
-
-  // Event Handlers
 }
 const slider = new Slider();
 
