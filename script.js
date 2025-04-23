@@ -79,14 +79,35 @@ const fetchDailyForecast = async (lat, lon, cnt) => {
 
 const getUserLocation = () => {
   if ('geolocation' in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      async ({ coords }) =>
-        fetchCityByCoords(coords.latitude, coords.longitude),
-      (error) =>
-        alert(
-          'Unable to get geolocation. Please enable access in your browser settings.'
-        )
-    );
+    const cachedCoords = JSON.parse(localStorage.getItem('coords'));
+
+    if (cachedCoords) {
+      fetchCityByCoords(cachedCoords.latitude, cachedCoords.longitude);
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          localStorage.setItem(
+            'coords',
+            JSON.stringify({
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+            })
+          );
+          fetchCityByCoords(coords.latitude, coords.longitude);
+        },
+        (error) => {
+          alert(
+            error,
+            'Unable to get geolocation. Please enable access in your browser settings.'
+          );
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 60000,
+        }
+      );
+    }
   } else {
     alert('Geolocation is not supported by your browser.');
   }
